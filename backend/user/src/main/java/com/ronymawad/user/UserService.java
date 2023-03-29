@@ -9,12 +9,30 @@ public class UserService {
 
     private UserRepository userRepository;
 
-    public void registerCustomer(UseRegistrationRequest request){
+    public UserModel registerCustomer(UserRegistrationRequest request){
         UserModel user = UserModel.builder()
                 .username(request.username())
                 .email(request.email())
                 .password(request.password())
+                .isValidated(false)
                 .build();
         userRepository.save(user);
+        return user;
     }
+
+    public UserModel loginCustomer(UserLoginRequest request) throws Exception {
+        UserModel user = userRepository.findByEmail(request.email()).orElseThrow();
+        if(request.password().equals(user.getPassword())){
+            return user;
+        }
+        else{
+            throw new Exception();
+        }
+    }
+
+    public Boolean checkValidation(Integer id) {
+       UserModel user =  userRepository.findById(id).orElseThrow();
+       return user.getIsValidated();
+    }
+
 }

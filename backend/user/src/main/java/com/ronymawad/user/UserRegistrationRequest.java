@@ -1,6 +1,6 @@
 package com.ronymawad.user;
 
-public record UseRegistrationRequest(
+public record UserRegistrationRequest(
         String username,
         String email,
         String password

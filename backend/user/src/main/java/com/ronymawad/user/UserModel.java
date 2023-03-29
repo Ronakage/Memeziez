@@ -27,5 +27,7 @@ public class UserModel {
     private String email;
     private String password;
 
+    private Boolean isValidated = false;
+
 
 }
