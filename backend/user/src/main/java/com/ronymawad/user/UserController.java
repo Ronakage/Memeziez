@@ -16,12 +16,16 @@ public class UserController {
 
     private UserService userService;
 
-    @PostMapping
-    public UserModel registerUser(@RequestBody UserRegistrationRequest request){
-        return userService.registerCustomer(request);
+    @PostMapping("/register")
+    public Object registerUser(@RequestBody UserRegistrationRequest request){
+        try {
+            return userService.registerCustomer(request);
+        } catch (Exception e) {
+            return ResponseEntity.status(HttpStatus.NOT_ACCEPTABLE);
+        }
     }
 
-    @GetMapping
+    @PostMapping("/login")
     public Object loginUser(@RequestBody UserLoginRequest request){
         try {
             return userService.loginCustomer(request);

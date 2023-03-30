@@ -9,7 +9,10 @@ public class UserService {
 
     private UserRepository userRepository;
 
-    public UserModel registerCustomer(UserRegistrationRequest request){
+    public UserModel registerCustomer(UserRegistrationRequest request) throws Exception {
+        if(userRepository.findByEmail(request.email()).isPresent()){
+            throw new Exception();
+        }
         UserModel user = UserModel.builder()
                 .username(request.username())
                 .email(request.email())
