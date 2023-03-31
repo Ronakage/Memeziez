@@ -39,7 +39,7 @@ public class UserController {
         return Map.of("isValid",userService.checkValidation(id));
     }
 
-    @GetMapping("/set-validation/{id}")
+    @PostMapping("/set-validation/{id}")
     public Object setValidation(@PathVariable Integer id){
         return userService.setValidation(id);
     }
