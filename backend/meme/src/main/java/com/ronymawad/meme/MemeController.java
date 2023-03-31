@@ -26,6 +26,21 @@ public class MemeController {
         }
     }
 
+    @PostMapping("/like/{memeId}/{likerId}")
+    public void postLike(@PathVariable Integer memeId, @PathVariable Integer likerId){
+        memeService.postLike(memeId, likerId);
+    }
+
+    @PostMapping("/unlike/{memeId}/{likerId}")
+    public void unpostLike(@PathVariable Integer memeId, @PathVariable  Integer likerId){
+        memeService.unpostLike(memeId, likerId);
+    }
+
+    @PostMapping("/comment/{memeId}/{commenterId}/{comment}")
+    public void postComment(@PathVariable Integer memeId, @PathVariable Integer commenterId, @PathVariable String comment){
+        memeService.postComment(memeId, commenterId, comment);
+    }
+
     @GetMapping
     public List<MemeModel> getAllMemes(){
         return memeService.getAllMemes();
@@ -35,6 +50,5 @@ public class MemeController {
     public List<MemeModel> getMemesByCreatorId(@PathVariable Integer creatorId){
         return memeService.getMemesByCreatorId(creatorId);
     }
-
 
 }

@@ -36,6 +36,49 @@ public class MemeService {
         }
     }
 
+    public void postLike(Integer memeId, Integer likerId) {
+        MemeModel meme =  memeRepository.findById(memeId).orElseThrow();
+        LikeModel like = LikeModel.builder()
+                .likerId(likerId)
+                .likedAt(LocalDateTime.now())
+                .build();
+        List<LikeModel> likes  = meme.getLikes();
+        LikeModel likeFound =likes.stream()
+                .filter(l -> l.getLikerId() == likerId)
+                .findAny()
+                .orElse(null);
+        if(likeFound == null){
+            likes.add(like);
+            meme.setLikes(likes);
+            memeRepository.save(meme);
+        }
+    }
+
+    public void unpostLike(Integer memeId, Integer likerId) {
+        MemeModel meme =  memeRepository.findById(memeId).orElseThrow();
+        LikeModel like = LikeModel.builder()
+                .likerId(likerId)
+                .likedAt(LocalDateTime.now())
+                .build();
+        List<LikeModel> likes  = meme.getLikes();
+        likes.removeIf(l -> l.getLikerId() == likerId);
+        meme.setLikes(likes);
+        memeRepository.save(meme);
+    }
+
+    public void postComment(Integer memeId, Integer commenterId, String comment) {
+        MemeModel meme =  memeRepository.findById(memeId).orElseThrow();
+        CommentModel commentObj = CommentModel.builder()
+                .commenterId(commenterId)
+                .comment(comment)
+                .commentedAt(LocalDateTime.now())
+                .build();
+        List<CommentModel> comments = meme.getComments();
+        comments.add(commentObj);
+        meme.setComments(comments);
+        memeRepository.save(meme);
+    }
+
     public List<MemeModel> getAllMemes() {
         return memeRepository.findAll();
     }
@@ -43,4 +86,5 @@ public class MemeService {
     public List<MemeModel> getMemesByCreatorId(Integer creatorId) {
         return memeRepository.findAllByCreatorId(creatorId);
     }
+
 }

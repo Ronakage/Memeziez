@@ -35,9 +35,18 @@ public class UserController {
     }
 
     @GetMapping("/check-validation/{id}")
-    public Object checkValidation(@PathVariable String id){
-        Integer idToInt = Integer.parseInt(id);
-        return Map.of("isValid",userService.checkValidation(idToInt));
+    public Object checkValidation(@PathVariable Integer id){
+        return Map.of("isValid",userService.checkValidation(id));
+    }
+
+    @GetMapping("/set-validation/{id}")
+    public Object setValidation(@PathVariable Integer id){
+        return userService.setValidation(id);
+    }
+
+    @GetMapping("/check-username/{id}")
+    public String checkUsernameFromId(@PathVariable Integer id){
+        return userService.checkUsernameFromId(id);
     }
 
 }

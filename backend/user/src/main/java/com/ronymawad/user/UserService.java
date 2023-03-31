@@ -38,4 +38,17 @@ public class UserService {
        return user.getIsValidated();
     }
 
+    public Object setValidation(Integer id) {
+        UserModel user =  userRepository.findById(id).orElseThrow();
+        user.setIsValidated(true);
+        userRepository.save(user);
+        return user;
+    }
+
+    public String checkUsernameFromId(Integer id) {
+        UserModel user =  userRepository.findById(id).orElseThrow();
+        return user.getUsername();
+    }
+
+
 }
