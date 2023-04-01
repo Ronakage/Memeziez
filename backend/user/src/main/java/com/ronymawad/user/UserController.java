@@ -45,8 +45,8 @@ public class UserController {
     }
 
     @GetMapping("/check-username/{id}")
-    public String checkUsernameFromId(@PathVariable Integer id){
-        return userService.checkUsernameFromId(id);
+    public Object checkUsernameFromId(@PathVariable Integer id){
+        return Map.of("username",userService.checkUsernameFromId(id));
     }
 
 }

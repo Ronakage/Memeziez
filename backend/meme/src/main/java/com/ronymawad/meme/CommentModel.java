@@ -25,7 +25,9 @@ public class CommentModel {
     )
     private Integer id;
 
-    private Integer  commenterId;
+    private Integer commenterId;
+
+    private String commenterUsername;
 
     private String comment;
 

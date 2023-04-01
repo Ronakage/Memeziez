@@ -27,6 +27,8 @@ public class LikeModel {
 
     private Integer likerId;
 
+    private String likerUsername;
+
     private LocalDateTime likedAt;
 
 }

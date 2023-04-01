@@ -15,7 +15,12 @@ class HomePage extends StatefulWidget {
 class _HomePageState extends State<HomePage> {
   int currentPageIndex = 0;
   var pageTitles = ['Feed','Create','Profile'];
-  var pages = [const FeedPage(),const CreatePage(),const ProfilePage()];
+  var pages;
+  @override
+  void initState() {
+    super.initState();
+    pages = [FeedPage(user: widget.user), CreatePage(user:widget.user), ProfilePage(user:widget.user)];
+  }
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -23,14 +28,7 @@ class _HomePageState extends State<HomePage> {
         title: Text(pageTitles[currentPageIndex]),
         automaticallyImplyLeading: false,
       ),
-      body: SafeArea(
-        child: pages[currentPageIndex]
-      ),
-      floatingActionButton: FloatingActionButton(
-        onPressed: (){
-
-        },
-      ),
+      body: pages[currentPageIndex],
       bottomNavigationBar:  BottomNavigationBar(
         currentIndex: currentPageIndex,
         onTap: (newPageIndex) {
@@ -42,15 +40,15 @@ class _HomePageState extends State<HomePage> {
         items: const <BottomNavigationBarItem>[
           BottomNavigationBarItem(
             icon: Icon(Icons.home),
-            label: 'Feed',
+            label: '',
           ),
           BottomNavigationBarItem(
             icon: Icon(Icons.create),
-            label: 'Create',
+            label: '',
           ),
           BottomNavigationBarItem(
             icon: Icon(Icons.person),
-            label: 'Profile',
+            label: '',
           ),
         ],
       ),

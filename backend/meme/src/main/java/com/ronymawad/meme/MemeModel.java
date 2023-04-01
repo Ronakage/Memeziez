@@ -27,6 +27,8 @@ public class MemeModel {
     )
     private Integer id;
     private Integer creatorId;
+
+    private String creatorUsername;
     @Lob
     @Type(type = "org.hibernate.type.BinaryType")
     private byte[] data;

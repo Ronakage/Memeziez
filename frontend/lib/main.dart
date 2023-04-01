@@ -19,7 +19,7 @@ class MyApp extends StatelessWidget {
   Widget build(BuildContext context) {
     return MaterialApp(
       title: 'Memeziez',
-      theme: ThemeData(useMaterial3: true, colorScheme: lightColorScheme),
+      theme: ThemeData(useMaterial3: true, colorScheme: darkColorScheme),
       darkTheme: ThemeData(useMaterial3: true, colorScheme: darkColorScheme),
       debugShowCheckedModeBanner: false,
       home: const LoginPage(),
@@ -37,37 +37,6 @@ class _LoginPageState extends State<LoginPage> {
   TextEditingController emailController = TextEditingController();
   TextEditingController passwordController = TextEditingController();
   bool isLoading = false;
-
-  Future<UserModel?> loginUser() async {
-    setState(() {
-      isLoading = true;
-    });
-    final response = await http.post(
-      Uri.parse("${URLS.userURL}/login"),
-      headers: <String, String>{
-        'Content-Type': 'application/json; charset=UTF-8',
-      },
-      body: jsonEncode(<String, String>{
-        'email': emailController.text,
-        'password': passwordController.text
-      }),
-    );
-
-    if (response.statusCode == 200) {
-      setState(() {
-        isLoading = false;
-      });
-      UserModel user = UserModel.fromJson(jsonDecode(response.body));
-      debugPrint("${user.username} has logged in.");
-      return user;
-    } else {
-      setState(() {
-        isLoading = false;
-      });
-      debugPrint("Failed to login.");
-      return null;
-    }
-  }
 
   @override
   Widget build(BuildContext context) {
@@ -133,5 +102,35 @@ class _LoginPageState extends State<LoginPage> {
         ),
       ),
     );
+  }
+  Future<UserModel?> loginUser() async {
+    setState(() {
+      isLoading = true;
+    });
+    final response = await http.post(
+      Uri.parse("${URLS.userURL}/login"),
+      headers: <String, String>{
+        'Content-Type': 'application/json; charset=UTF-8',
+      },
+      body: jsonEncode(<String, String>{
+        'email': emailController.text,
+        'password': passwordController.text
+      }),
+    );
+
+    if (response.statusCode == 200) {
+      setState(() {
+        isLoading = false;
+      });
+      UserModel user = UserModel.fromJson(jsonDecode(response.body));
+      debugPrint("${user.username} has logged in.");
+      return user;
+    } else {
+      setState(() {
+        isLoading = false;
+      });
+      debugPrint("Failed to login.");
+      return null;
+    }
   }
 }

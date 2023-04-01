@@ -22,9 +22,13 @@ public class MemeService {
     }
 
     public MemeModel postMeme(Integer creatorId, MultipartFile data) throws Exception {
+        UserGetUsernameResponse response = restTemplate.getForObject("http://localhost:8080/api/v1/users/check-username/{id}",
+                UserGetUsernameResponse.class,
+                creatorId);
         if(isUserValidated(creatorId)){
             MemeModel meme = MemeModel.builder()
                     .creatorId(creatorId)
+                    .creatorUsername(response.username())
                     .createdAt(LocalDateTime.now())
                     .data(data.getBytes())
                     .build();
@@ -37,9 +41,13 @@ public class MemeService {
     }
 
     public void postLike(Integer memeId, Integer likerId) {
+        UserGetUsernameResponse response = restTemplate.getForObject("http://localhost:8080/api/v1/users/check-username/{id}",
+                UserGetUsernameResponse.class,
+                likerId);
         MemeModel meme =  memeRepository.findById(memeId).orElseThrow();
         LikeModel like = LikeModel.builder()
                 .likerId(likerId)
+                .likerUsername(response.username())
                 .likedAt(LocalDateTime.now())
                 .build();
         List<LikeModel> likes  = meme.getLikes();
@@ -67,9 +75,13 @@ public class MemeService {
     }
 
     public void postComment(Integer memeId, Integer commenterId, String comment) {
+        UserGetUsernameResponse response = restTemplate.getForObject("http://localhost:8080/api/v1/users/check-username/{id}",
+                UserGetUsernameResponse.class,
+                commenterId);
         MemeModel meme =  memeRepository.findById(memeId).orElseThrow();
         CommentModel commentObj = CommentModel.builder()
                 .commenterId(commenterId)
+                .commenterUsername(response.username())
                 .comment(comment)
                 .commentedAt(LocalDateTime.now())
                 .build();
