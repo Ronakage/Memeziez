@@ -6,4 +6,6 @@ import java.util.List;
 
 public interface MemeRepository extends JpaRepository<MemeModel, Integer> {
     List<MemeModel> findAllByCreatorId(Integer creatorId);
+
+    List<MemeModel> findAllByOrderByCreatedAtDesc();
 }

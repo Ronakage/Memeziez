@@ -92,7 +92,7 @@ public class MemeService {
     }
 
     public List<MemeModel> getAllMemes() {
-        return memeRepository.findAll();
+        return memeRepository.findAllByOrderByCreatedAtDesc();
     }
 
     public List<MemeModel> getMemesByCreatorId(Integer creatorId) {
