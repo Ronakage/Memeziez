@@ -3,6 +3,7 @@ import 'package:memeziez/domain/user_model.dart';
 import 'package:memeziez/screens/create_page.dart';
 import 'package:memeziez/screens/feed_page.dart';
 import 'package:memeziez/screens/profile_page.dart';
+import 'package:salomon_bottom_bar/salomon_bottom_bar.dart';
 
 class HomePage extends StatefulWidget {
   HomePage({ required this.user, Key? key}) : super(key: key);
@@ -23,34 +24,61 @@ class _HomePageState extends State<HomePage> {
   }
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      appBar: AppBar(
-        title: Text(pageTitles[currentPageIndex]),
-        automaticallyImplyLeading: false,
-      ),
-      body: pages[currentPageIndex],
-      bottomNavigationBar:  BottomNavigationBar(
-        currentIndex: currentPageIndex,
-        onTap: (newPageIndex) {
-          setState(() {
-            currentPageIndex = newPageIndex;
-          });
-        },
-        enableFeedback: true,
-        items: const <BottomNavigationBarItem>[
-          BottomNavigationBarItem(
-            icon: Icon(Icons.home),
-            label: '',
+    return WillPopScope(
+      onWillPop: () async => false,
+      child: Scaffold(
+        body: SafeArea(
+          child: IndexedStack(
+            index: currentPageIndex,
+            children: <Widget>[...pages],
           ),
-          BottomNavigationBarItem(
-            icon: Icon(Icons.create),
-            label: '',
-          ),
-          BottomNavigationBarItem(
-            icon: Icon(Icons.person),
-            label: '',
-          ),
-        ],
+        ),
+         bottomNavigationBar: SalomonBottomBar(
+           currentIndex: currentPageIndex,
+           onTap: (i) => setState(() => currentPageIndex = i),
+           items: [
+             SalomonBottomBarItem(
+               icon: const Icon(Icons.home),
+               title: const Text("Feed"),
+               selectedColor: Colors.yellow[700]
+             ),
+
+             SalomonBottomBarItem(
+               icon: const Icon(Icons.create),
+               title: const Text("Create"),
+                 selectedColor: Colors.yellow[700]
+             ),
+
+             SalomonBottomBarItem(
+               icon: const Icon(Icons.person),
+               title: const Text("Profile"),
+                 selectedColor: Colors.yellow[700]
+             ),
+           ],
+         ),
+        // BottomNavigationBar(
+        //   currentIndex: currentPageIndex,
+        //   onTap: (newPageIndex) {
+        //     setState(() {
+        //       currentPageIndex = newPageIndex;
+        //     });
+        //   },
+        //   enableFeedback: true,
+        //   items: const <BottomNavigationBarItem>[
+        //     BottomNavigationBarItem(
+        //       icon: Icon(Icons.home),
+        //       label: '',
+        //     ),
+        //     BottomNavigationBarItem(
+        //       icon: Icon(Icons.create),
+        //       label: '',
+        //     ),
+        //     BottomNavigationBarItem(
+        //       icon: Icon(Icons.person),
+        //       label: '',
+        //     ),
+        //   ],
+        // ),
       ),
     );
   }

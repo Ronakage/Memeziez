@@ -19,8 +19,8 @@ class MyApp extends StatelessWidget {
   Widget build(BuildContext context) {
     return MaterialApp(
       title: 'Memeziez',
-      theme: ThemeData(useMaterial3: true, colorScheme: darkColorScheme),
-      darkTheme: ThemeData(useMaterial3: true, colorScheme: darkColorScheme),
+      theme: ThemeData(useMaterial3: true, ),
+      darkTheme: ThemeData(useMaterial3: true,),
       debugShowCheckedModeBanner: false,
       home: const LoginPage(),
     );

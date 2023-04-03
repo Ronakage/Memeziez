@@ -7,6 +7,7 @@ import 'package:http/http.dart' as http;
 
 import '../utils/helpers.dart';
 import '../utils/urls.dart';
+import 'comments_page.dart';
 
 class FeedPage extends StatefulWidget {
   const FeedPage({Key? key, required this.user}) : super(key: key);
@@ -20,6 +21,16 @@ class _FeedPageState extends State<FeedPage> {
   bool isLoading = true;
   var feedPageViewController = PageController(initialPage: 0);
   List<MemeModel> memes = [];
+
+  callback(MemeModel modifiedMeme){
+    setState(() {
+      for(MemeModel meme in memes){
+        if(meme.id == modifiedMeme.id){
+          meme = modifiedMeme;
+        }
+      }
+    });
+  }
 
   @override
   void initState() {
@@ -35,7 +46,6 @@ class _FeedPageState extends State<FeedPage> {
           scrollDirection: Axis.vertical,
           itemCount: memes.length,
           itemBuilder: (BuildContext context, int index) {
-            int numOfLikes = memes[index].likes.length;
             bool isLiked = memes[index].likes.any((like) => like.likerId == widget.user.id);
             return Stack(
               children: [
@@ -77,25 +87,28 @@ class _FeedPageState extends State<FeedPage> {
                               onPressed: (){
                                 if(mounted){
                                   setState(() {
-                                    isLiked = !isLiked;
                                     if(isLiked) {
-                                      numOfLikes++;
+                                      memes[index].likes.removeWhere((like) => like.likerId == widget.user.id);
+                                      unpostLike(memes[index].id, widget.user.id);
                                     } else {
-                                      numOfLikes--;
+                                      Likes like = Likes(id: 0, likerId: widget.user.id, likerUsername: widget.user.username, likedAt: DateTime.now());
+                                      memes[index].likes.add(like);
+                                      postLike(memes[index].id, widget.user.id);
                                     }
-                                    debugPrint(isLiked.toString());
-                                    debugPrint(numOfLikes.toString());
-                                    debugPrint(memes[index].likes.toString());
+                                    isLiked = !isLiked;
                                   });
                                 }
-                                if(isLiked){postLike(memes[index].id, widget.user.id);}
-                                else{unpostLike(memes[index].id, widget.user.id);}
                               },
                               icon: isLiked ? const Icon(Icons.thumb_up) : const Icon(Icons.thumb_up_outlined)
                               ,iconSize: 30),
-                          Text(numOfLikes.toString()),
+                          Text(memes[index].likes.length.toString()),
                           const SizedBox(height: 20),
-                          IconButton(onPressed: (){}, icon: const Icon(Icons.mode_comment_outlined, semanticLabel: "Comment",),iconSize: 30),
+                          IconButton(onPressed: (){
+                            Navigator.push(
+                              context,
+                              MaterialPageRoute(builder: (context) => CommentsPage(user: widget.user, meme:memes[index], callback: callback)),
+                            );
+                          }, icon: const Icon(Icons.mode_comment_outlined, semanticLabel: "Comment",),iconSize: 30),
                           Text(memes[index].comments.length.toString()),
                         ],
                       ),
@@ -150,4 +163,5 @@ class _FeedPageState extends State<FeedPage> {
         headers: <String, String>{
           'Content-Type': 'application/json; charset=UTF-8',});
   }
+
 }
