@@ -34,8 +34,11 @@ class LoginPage extends StatefulWidget {
 }
 
 class _LoginPageState extends State<LoginPage> {
-  TextEditingController emailController = TextEditingController();
-  TextEditingController passwordController = TextEditingController();
+  TextEditingController loginEmailController = TextEditingController();
+  TextEditingController loginPasswordController = TextEditingController();
+  TextEditingController registerUsernameController = TextEditingController();
+  TextEditingController registerEmailController = TextEditingController();
+  TextEditingController registerPasswordController = TextEditingController();
   bool isLoading = false;
 
   @override
@@ -48,10 +51,6 @@ class _LoginPageState extends State<LoginPage> {
         child: Column(
           mainAxisAlignment: MainAxisAlignment.center,
           children: [
-            const Image(
-              image: AssetImage('assets/logo.png'),
-              fit: BoxFit.scaleDown,
-            ),
             Padding(
               padding: const EdgeInsets.symmetric(horizontal: 15, vertical: 0),
               child: TextField(
@@ -60,7 +59,7 @@ class _LoginPageState extends State<LoginPage> {
                   hintText: 'Email',
                   prefixIcon: Icon(Icons.email)
                 ),
-                controller: emailController,
+                controller: loginEmailController,
                 keyboardType: TextInputType.emailAddress,
               ),
             ),
@@ -73,7 +72,7 @@ class _LoginPageState extends State<LoginPage> {
                   hintText: 'Password',
                     prefixIcon: Icon(Icons.password)
                 ),
-                controller: passwordController,
+                controller: loginPasswordController,
                 obscureText: true,
               ),
             ),
@@ -97,7 +96,61 @@ class _LoginPageState extends State<LoginPage> {
                       :
                   const Text("Login")
               ),
-            )
+            ),
+            const SizedBox(height: 20,),
+            const Divider(),
+            const SizedBox(height: 20,),
+            Padding(
+              padding: const EdgeInsets.symmetric(horizontal: 15, vertical: 0),
+              child: TextField(
+                decoration: const InputDecoration(
+                    border: OutlineInputBorder(borderRadius: BorderRadius.all(Radius.circular(30))),
+                    hintText: 'Username',
+                    prefixIcon: Icon(Icons.person)
+                ),
+                controller: registerUsernameController,
+                keyboardType: TextInputType.emailAddress,
+              ),
+            ),
+            const SizedBox(height: 20,),
+            Padding(
+              padding: const EdgeInsets.symmetric(horizontal: 15, vertical: 0),
+              child: TextField(
+                decoration: const InputDecoration(
+                    border: OutlineInputBorder(borderRadius: BorderRadius.all(Radius.circular(30))),
+                    hintText: 'Email',
+                    prefixIcon: Icon(Icons.email)
+                ),
+                controller: registerEmailController,
+                keyboardType: TextInputType.emailAddress,
+              ),
+            ),
+            const SizedBox(height: 20,),
+            Padding(
+              padding: const EdgeInsets.symmetric(horizontal: 15, vertical: 0),
+              child: TextField(
+                decoration: const InputDecoration(
+                    border: OutlineInputBorder(borderRadius: BorderRadius.all(Radius.circular(30))),
+                    hintText: 'Password',
+                    prefixIcon: Icon(Icons.password)
+                ),
+                controller: registerPasswordController,
+                keyboardType: TextInputType.text,
+              ),
+            ),
+            const SizedBox(height: 20,),
+            ElevatedButton(
+              onPressed: () {},
+              child:  Padding(
+                  padding: EdgeInsets.symmetric(
+                      horizontal: MediaQuery.of(context).size.width/6,
+                      vertical: 20),
+                  child: isLoading?
+                  const CircularProgressIndicator()
+                      :
+                  const Text("Register")
+              ),
+            ),
           ],
         ),
       ),
@@ -113,8 +166,8 @@ class _LoginPageState extends State<LoginPage> {
         'Content-Type': 'application/json; charset=UTF-8',
       },
       body: jsonEncode(<String, String>{
-        'email': emailController.text,
-        'password': passwordController.text
+        'email': loginEmailController.text,
+        'password': loginPasswordController.text
       }),
     );
 

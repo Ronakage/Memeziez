@@ -11,6 +11,17 @@ class CreatePage extends StatefulWidget {
 class _CreatePageState extends State<CreatePage> {
   @override
   Widget build(BuildContext context) {
-    return Scaffold();
+    return Scaffold(
+      body: SafeArea(
+        child: Center(
+            child: Column(
+              mainAxisAlignment: MainAxisAlignment.center,
+              children: [
+                ElevatedButton(onPressed: () {  }, child: Text("Pick an image"),),
+              ],
+            )
+        ),
+      ),
+    );
   }
 }

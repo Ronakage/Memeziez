@@ -40,19 +40,16 @@ class _HomePageState extends State<HomePage> {
              SalomonBottomBarItem(
                icon: const Icon(Icons.home),
                title: const Text("Feed"),
-               selectedColor: Colors.yellow[700]
              ),
 
              SalomonBottomBarItem(
                icon: const Icon(Icons.create),
                title: const Text("Create"),
-                 selectedColor: Colors.yellow[700]
              ),
 
              SalomonBottomBarItem(
                icon: const Icon(Icons.person),
                title: const Text("Profile"),
-                 selectedColor: Colors.yellow[700]
              ),
            ],
          ),

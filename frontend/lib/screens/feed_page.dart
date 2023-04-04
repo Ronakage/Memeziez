@@ -4,6 +4,8 @@ import 'package:flutter/material.dart';
 import 'package:memeziez/domain/meme_model.dart';
 import 'package:memeziez/domain/user_model.dart';
 import 'package:http/http.dart' as http;
+import 'package:memeziez/utils/shimmer/shimmer_feed_page.dart';
+import 'package:shimmer_animation/shimmer_animation.dart';
 
 import '../utils/helpers.dart';
 import '../utils/urls.dart';
@@ -40,7 +42,7 @@ class _FeedPageState extends State<FeedPage> {
 
   @override
   Widget build(BuildContext context) {
-    return isLoading ? const Center(child : CircularProgressIndicator()) :
+    return isLoading ? const Center(child: ShimmerFeedPage()) :
         PageView.builder(
           controller: feedPageViewController,
           scrollDirection: Axis.vertical,
@@ -65,7 +67,7 @@ class _FeedPageState extends State<FeedPage> {
                           memes[index].creatorUsername,
                           style: const TextStyle(
                             fontWeight: FontWeight.bold,
-                            fontSize: 30
+                            fontSize: 30,
                           ),
                         ),
                         onTap: (){}, //Others profiles pages

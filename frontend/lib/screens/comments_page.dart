@@ -27,7 +27,6 @@ class _CommentsPageState extends State<CommentsPage> {
           ),
           body: Stack(
             children: [
-
               ListView.builder(
                   itemCount: widget.meme.comments.length,
                   itemBuilder: (context, index){
@@ -44,11 +43,10 @@ class _CommentsPageState extends State<CommentsPage> {
                             ],
                           ),
                         ),
-                        Divider()
+                        Divider(),
+                        index == widget.meme.comments.length-1 ? SizedBox(height: 80) : SizedBox(height: 0),
                       ],
-
                     );
-
                   }
               ),
               Align(
@@ -62,10 +60,12 @@ class _CommentsPageState extends State<CommentsPage> {
                             decoration: const InputDecoration(
                                 border: OutlineInputBorder(borderRadius: BorderRadius.all(Radius.circular(30))),
                                 hintText: 'Comment',
+                                filled: true,
                                 prefixIcon: Icon(Icons.comment)
                             ),
                             keyboardType: TextInputType.text,
                             controller: commentController,
+
                           ),
                         ),
                         IconButton(
